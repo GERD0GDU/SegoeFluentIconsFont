@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:WpfSegoeFluentIconsFont.Controls"
+                    >
+
+    <Style TargetType="{x:Type controls:SearchTextBox}">
+        <Setter Property="LabelTextColor" Value="Gray" />
+        <Setter Property="LabelText" Value="{DynamicResource strSearch}" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="MinHeight" Value="24" />
+        <Setter Property="Padding" Value="1,0,0,0" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SearchTextBox}">
+                    <Border CornerRadius="0"
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="32"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="PART_LabelText" 
+                                       Margin="4,0,0,0" 
+                                       Text="{TemplateBinding LabelText}"
+                                       Foreground="{TemplateBinding LabelTextColor}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                            <Button x:Name="PART_ClearButton"
+                                    Grid.Column="1"
+                                    Margin="1"
+                                    FontFamily="{StaticResource SegoeFluentIcons}"
+                                    FontSize="12"
+                                    Content="{StaticResource ChromeClose}"
+                                    Width="32"
+                                    Visibility="Collapsed"
+                                    Background="{x:Null}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    BorderBrush="{x:Null}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    FocusVisualStyle="{x:Null}"
+                                    ToolTip="Clear search box (ESC)"
+                                    />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasText" Value="True">
+                            <Setter TargetName="PART_LabelText" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_ClearButton" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

@@ -1,0 +1,223 @@
+﻿<Window x:Class="WpfSegoeFluentIconsFont.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfSegoeFluentIconsFont"
+        xmlns:controls="clr-namespace:WpfSegoeFluentIconsFont.Controls"
+        mc:Ignorable="d"
+        Background="{StaticResource WindowBackBrush}"
+        Title="{x:Static local:AppUtilities.ApplicationTitle}"
+        Icon="AppIcon.ico"
+        Height="576"
+        Width="1024"
+        MinHeight="200"
+        MinWidth="540"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+
+    <Border x:Name="m_mainBorder"
+            BorderBrush="{StaticResource TitleBarBackBrush}"
+            BorderThickness="2">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+
+            <!--Title Bar-->
+            <Border x:Name="m_borderTitleBar"
+                    BorderThickness="0,0,0,1"
+                    BorderBrush="Gray"
+                    Background="{StaticResource TitleBarBackBrush}"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                    MouseLeftButtonUp="TitleBar_MouseLeftButtonUp"
+                    MouseMove="TitleBar_MouseMove"
+                    >
+                <Grid Opacity="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive, Converter={StaticResource BoolToOpacityConverter}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Application Icon-->
+                    <Image Margin="4" Stretch="Uniform"
+                       Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=Icon}"
+                       MouseLeftButtonDown="Image_MouseLeftButtonDown" />
+
+                    <!--Application Title-->
+                    <TextBlock Grid.Column="1" Margin="4,0"
+                           Foreground="{StaticResource TitleBarForeBrush}"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" 
+                           VerticalAlignment="Center" 
+                           />
+
+                    <!--Searck Text Box-->
+                    <controls:SearchTextBox x:Name="m_txtSearchText" Grid.Column="3"
+                        ToolTip="Enter the name of the icon you want to search for"
+                        TextChanged="SearchTextBox_TextChanged"
+                        VerticalAlignment="Center"
+                        />
+
+                    <!--Custom Buttons -->
+                    <StackPanel Grid.Column="5" Orientation="Horizontal">
+                        <Button Style="{StaticResource WindowDefaultButtonStyle}"
+                            Content="{StaticResource Info}"
+                            ToolTip="About This Application"
+                            Click="AboutButton_Click" />
+                        <Button x:Name="m_btnAppSettings"
+                            Style="{StaticResource WindowDefaultButtonStyle}"
+                            Content="{StaticResource Settings}"
+                            ToolTip="Application Settings"
+                            Click="SettingsButton_Click" />
+                    </StackPanel>
+
+                    <!--Window Buttons -->
+                    <StackPanel Grid.Column="7" Orientation="Horizontal">
+                        <Button Style="{StaticResource WindowDefaultButtonStyle}"
+                            Content="{StaticResource ChromeMinimize}"
+                            ToolTip="Minimize"
+                        Click="MinimizeButton_Click" />
+
+                        <Button Style="{StaticResource WindowDefaultButtonStyle}"
+                            Content="{StaticResource ChromeMaximize}"
+                            ToolTip="Maximize"
+                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState, Converter={StaticResource WindowStateToVisibility}, ConverterParameter=Normal}"
+                        Click="MaximizeButton_Click" />
+
+                        <Button Style="{StaticResource WindowDefaultButtonStyle}"
+                            Content="{StaticResource ChromeRestore}"
+                            ToolTip="Restore Down"
+                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState, Converter={StaticResource WindowStateToVisibility}, ConverterParameter=Maximized}"
+                        Click="RestoreDownButton_Click"  />
+
+                        <Button Style="{StaticResource WindowCloseButtonStyle}"
+                        Click="CloseButton_Click" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--Center Screen-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="m_colLeft" Width="*" MinWidth="200" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition x:Name="m_colRight" Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ListView x:Name="m_lvItems"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ItemsSource="{Binding Source={x:Static local:IconsFactory.Icons}}"
+                      SelectionMode="Single"
+                      SelectionChanged="m_lvItems_SelectionChanged"
+                      >
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="8" Width="164">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Value}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="48" TextAlignment="Center" />
+                                <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="12" Margin="2" TextAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <controls:VirtualizingWrapPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView >
+
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" ResizeDirection="Columns" ShowsPreview="True">
+                    <GridSplitter.Background>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#7F696969" Offset="0"/>
+                            <GradientStop Color="{StaticResource WindowBackColor}" Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </GridSplitter.Background>
+                </GridSplitter>
+
+                <ScrollViewer Grid.Column="2" Margin="4" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <Border Margin="4"
+                            Background="White"
+                            BorderBrush="{StaticResource TitleBarBackBrush}"
+                            Padding="8"
+                            BorderThickness="1"
+                            >
+                            <StackPanel Orientation="Vertical">
+                                <Viewbox Stretch="Uniform" Height="220">
+                                    <TextBlock FontFamily="{StaticResource SegoeFluentIcons}"
+                                   FontSize="196"
+                                   Foreground="{StaticResource TitleBarBackBrush}"                         
+                                   Text="{Binding ElementName=m_lvItems, Path=SelectedItem.Value}"
+                                   TextAlignment="Center"
+                                />
+                                </Viewbox>
+
+                                <TextBox Margin="0,8,0,0"
+                                 IsReadOnly="True"
+                                 Background="White"
+                                 BorderThickness="0"
+                                 BorderBrush="{x:Null}"
+                                 FontSize="16"
+                                 FontWeight="DemiBold"
+                                 TextAlignment="Center">
+                                    <TextBox.Text>
+                                        <MultiBinding StringFormat="{}{0}&#x0d;&#x0a;{1}">
+                                            <Binding ElementName="m_lvItems" Path="SelectedItem.Name" Mode="OneWay" />
+                                            <Binding ElementName="m_lvItems" Path="SelectedItem.UnicodeValue" Mode="OneWay" />
+                                        </MultiBinding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Margin="4,8,4,0" Text="XAML Sample:" />
+                        <RichTextBox x:Name="m_txtCode" Margin="4" IsReadOnly="True"
+                                 FontFamily="Consolas"
+                                 FontSize="14"
+                                 Background="White"
+                                 MinHeight="200"
+                                 Foreground="Black"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 />
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!--Status Bar-->
+            <Border Grid.Row="2"
+                    BorderThickness="0,1,0,0"
+                    BorderBrush="Gray"
+                    Background="{StaticResource TitleBarBackBrush}">
+                <Grid Opacity="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive, Converter={StaticResource BoolToOpacityConverter}}">
+                    <TextBlock Grid.Row="1" Margin="8,2" Foreground="{StaticResource TitleBarForeBrush}" VerticalAlignment="Center">
+                        <Run Text="{Binding ElementName=m_lvItems, Path=Items.Count, Mode=OneWay}" />
+                        <Run Text=" icon(s) found." />
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

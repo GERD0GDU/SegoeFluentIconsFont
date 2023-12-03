@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="TitleBarBackColor">#FF444791</Color>
+    <Color x:Key="TitleBarForeColor">#FFf0f1f6</Color>
+    <Color x:Key="TitleBarDisabledForeColor">#7Fdadae9</Color>
+    <Color x:Key="TitleBarDefaultButtonBackColor">#FF3c3e7f</Color>
+    <Color x:Key="TitleBarCloseButtonBackColor">#FFe81123</Color>
+    <Color x:Key="TitleBarDefaultButtonDisabledBackColor">#7F3c3e7f</Color>
+    <Color x:Key="TitleBarCloseButtonDisabledBackColor">#7Fe81123</Color>
+    <Color x:Key="WindowBackColor">#FFf5f5f5</Color>
+
+    <SolidColorBrush x:Key="TitleBarBackBrush" Color="{StaticResource TitleBarBackColor}" />
+    <SolidColorBrush x:Key="TitleBarForeBrush" Color="{StaticResource TitleBarForeColor}" />
+    <SolidColorBrush x:Key="TitleBarDisabledForeBrush" Color="{StaticResource TitleBarDisabledForeColor}" />
+    <SolidColorBrush x:Key="TitleBarDefaultButtonBackBrush" Color="{StaticResource TitleBarDefaultButtonBackColor}" />
+    <SolidColorBrush x:Key="TitleBarCloseButtonBackBrush" Color="{StaticResource TitleBarCloseButtonBackColor}" />
+    <SolidColorBrush x:Key="TitleBarDefaultButtonDisabledBackBrush" Color="{StaticResource TitleBarDefaultButtonDisabledBackColor}" />
+    <SolidColorBrush x:Key="TitleBarCloseButtonDisabledBackBrush" Color="{StaticResource TitleBarCloseButtonDisabledBackColor}" />
+    <SolidColorBrush x:Key="WindowBackBrush" Color="{StaticResource WindowBackColor}" />
+    
+</ResourceDictionary>
